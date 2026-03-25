@@ -202,6 +202,8 @@ void printTitle()
     ▐▌ ▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▛▚▞▜▌▐▌ ▐▌▐▛▚▖▐▌
     ▐▛▀▜▌▐▛▀▜▌▐▌ ▝▜▌▐▌▝▜▌▐▌  ▐▌▐▛▀▜▌▐▌ ▝▜▌
     ▐▌ ▐▌▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌
+
+    Theme: History of Computing and Programming Languages
 )" << "\n\n";
 }
 
@@ -348,7 +350,8 @@ int main(int argc, char * argv[])
             clearScreen();
             printTitle();
             std::cout << frames[round.getMistakes()] << "\n";
-            std::cout << INDENT << "Hint: " << round.getWord().getHint() << "\n";
+            std::cout << INDENT << "Hint: " << round.getWord().getHint();
+            std::cout << " (" << round.getWord().length() << ")\n";
             round.printBlanks();
 
             // Ask for a letter
