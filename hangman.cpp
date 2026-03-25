@@ -233,7 +233,7 @@ int main(int argc, char * argv[])
 {
     std::string frames[LIVES+1];
     frames[0] = R"(
-     ____
+    _____
     |/   |
     |
     |
@@ -243,7 +243,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[1] = R"(
-     ____
+    _____
     |/   |
     |    O
     |
@@ -253,7 +253,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[2] = R"(
-     ____
+    _____
     |/   |
     |    O
     |    |
@@ -263,7 +263,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[3] = R"(
-    ____
+    _____
     |/   |
     |    O
     |   /|
@@ -273,7 +273,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[4] = R"(
-    ____
+    _____
     |/   |
     |    O
     |   /|\
@@ -283,7 +283,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[5] = R"(
-    ____
+    _____
     |/   |
     |    O
     |   /|\
@@ -293,7 +293,7 @@ int main(int argc, char * argv[])
     |_____
 )";
     frames[6] = R"(
-    ____
+    _____
     |/   |
     |    O
     |   /|\
