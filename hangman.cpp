@@ -7,6 +7,7 @@
 
 #define FILENAME "words.csv"
 #define LIVES 6
+#define INDENT "    "
 
 class Word
 {
@@ -78,6 +79,7 @@ public:
 
     void printBlanks() const
     {
+        std::cout << INDENT;
         for (auto& c : m_blanks)
         {
             std::cout << c << " ";
@@ -203,10 +205,10 @@ void printGameOver(const std::string& frame, const std::string& message, const R
     printTitle();
     std::cout << frame << "\n";
     round.printBlanks();
-    std::cout << "\n" << message << "\n";
-    std::cout << "The word was \"" << round.getWord().getTerm() << "\"\n\n";
-    std::cout << "Fun Fact:\n";
-    std::cout << round.getWord().getDesc() << "\n";
+    std::cout << "\n" << INDENT << message << "\n";
+    std::cout << INDENT << "The word was \"" << round.getWord().getTerm() << "\"\n\n";
+    std::cout << INDENT << "Fun Fact:\n";
+    std::cout << INDENT << round.getWord().getDesc() << "\n";
 }
 
 bool promptRetry()
@@ -216,7 +218,7 @@ bool promptRetry()
 
     while (1)
     {
-        std::cout << "Retry? (Y/N) ";
+        std::cout << INDENT << "Retry? (Y/N) ";
         std::cin >> input;
         if (input.length() > 0)
         {
@@ -312,24 +314,23 @@ int main(int argc, char * argv[])
             clearScreen();
             printTitle();
             std::cout << frames[round.getMistakes()] << "\n";
-            std::cout << "Hint: " << round.getWord().getHint() << "\n";
+            std::cout << INDENT << "Hint: " << round.getWord().getHint() << "\n";
             round.printBlanks();
 
             // Ask for a letter
-            std::cout << "\nEnter a letter: ";
+            std::cout << "\n" << INDENT << "Enter a letter: ";
             std::cin >> letter;
             round.guess(letter[0]);
             
             // Check if the player won or lost
             if (round.gameWon())
             {
-    
-                printGameOver(frames[round.getMistakes()], "Congratulations, You Win! :)", round);
+                printGameOver(frames[round.getMistakes()], "Congratulations, you win :)", round);
                 break;
             }
             else if (round.getMistakes() == LIVES)
             {
-                printGameOver(frames[round.getMistakes()], "You Lost! :(", round);
+                printGameOver(frames[round.getMistakes()], "You failed to guess the word :(", round);
                 break;
             }
         }
