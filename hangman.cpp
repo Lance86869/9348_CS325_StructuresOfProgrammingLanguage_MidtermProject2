@@ -141,7 +141,7 @@ std::vector<std::string> split(const std::string& str, char del)
 
 Word getWord(const std::string& line)
 {
-    std::vector<std::string> strings = split(line, ',');
+    std::vector<std::string> strings = split(line, ';');
     return Word(strings[0], strings[1], strings[2]);
 }
 
