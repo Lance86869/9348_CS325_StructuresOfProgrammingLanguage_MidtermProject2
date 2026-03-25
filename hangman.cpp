@@ -16,7 +16,7 @@ class Word
 public:
     Word() {}
 
-    Word(std::string term, std::string hint, std::string desc)
+    Word(const std::string& term, const std::string& hint, const std::string& desc)
         :m_term(term)
         ,m_hint(hint)
         ,m_desc(desc)
@@ -56,7 +56,7 @@ class Round
     int m_mistakes = 0;
 
 public:
-    Round(Word word)
+    Round(const Word& word)
     {    
         m_word = word; 
         for (int i=0; i<word.length(); i++)
@@ -114,12 +114,12 @@ public:
     }
 };
 
-std::vector<std::string> split(std::string str, char del)
+std::vector<std::string> split(const std::string& str, char del)
 {
     std::vector<std::string> strings;
     std::string part = "";
 
-    for (char& c : str)
+    for (auto& c : str)
     {
         if (c == del)
         {
@@ -136,7 +136,7 @@ std::vector<std::string> split(std::string str, char del)
     return strings;
 }
 
-Word getWord(std::string line)
+Word getWord(const std::string& line)
 {
     std::vector<std::string> strings = split(line, ',');
     return Word(strings[0], strings[1], strings[2]);
@@ -171,10 +171,19 @@ Word randWord()
     return words[rand_index];
 }
 
-int isLetter(std::string input)
+int isLetter(const std::string& input)
 {
     std::regex r("[a-zA-Z]");
     return std::regex_match(input, r);
+}
+
+void printGameOver(const std::string& message, const Round& round)
+{
+    round.printBlanks();
+    std::cout << "\n" << message << "\n";
+    std::cout << "The word was \"" << round.getWord().getTerm() << "\"\n\n";
+    std::cout << "Fun Fact:\n";
+    std::cout << round.getWord().getDesc() << "\n";
 }
 
 int main(int argc, char * argv[])
@@ -186,7 +195,7 @@ int main(int argc, char * argv[])
     ▐▌ ▐▌▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌
 )" << "\n\n";
 
-    std::string frames[7];
+    std::string frames[LIVES+1];
     frames[0] = R"(
      ____
     |/   |
@@ -261,12 +270,11 @@ int main(int argc, char * argv[])
     int i = 0;
     Round round(randWord());
     std::string letter;
-    Word word = round.getWord();
     while (1)
     {
         // Display hangman and blanks
         std::cout << frames[round.getMistakes()] << "\n";
-        std::cout << "Hint: " << word.getHint() << "\n";
+        std::cout << "Hint: " << round.getWord().getHint() << "\n";
         round.printBlanks();
 
         // Ask for a letter
@@ -277,19 +285,14 @@ int main(int argc, char * argv[])
         // Check if the player won or lost
         if (round.gameWon())
         {
-            std::cout << "Congratulations, You Win! :)\n";
-            std::cout << "The word was \"" << word.getTerm() << "\"\n\n";
-            std::cout << "Description:\n";
-            std::cout << word.getDesc() << "\n";
+            std::cout << frames[round.getMistakes()] << "\n";
+            printGameOver("Congratulations, You Win! :)", round);
             break;
         }
         if (round.getMistakes() == LIVES)
         {
-            std::cout << frames[LIVES] << "\n";
-            std::cout << "You Lost! :(\n";
-            std::cout << "The word was \"" << word.getTerm() << "\"\n\n";
-            std::cout << "Description:\n";
-            std::cout << word.getDesc() << "\n";
+            std::cout << frames[round.getMistakes()] << "\n";
+            printGameOver("You Lost! :(", round);
             break;
         }
     }
