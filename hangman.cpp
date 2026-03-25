@@ -186,6 +186,24 @@ void printGameOver(const std::string& message, const Round& round)
     std::cout << round.getWord().getDesc() << "\n";
 }
 
+bool promptRetry()
+{
+    std::string input;
+    char letter;
+
+    while (1)
+    {
+        std::cout << "Retry? (Y/N) ";
+        std::cin >> input;
+        if (input.length() > 0)
+        {
+            letter = (char) toupper(input[0]);
+            if (letter == 'Y') return true;
+            if (letter == 'N') return false;
+        }
+    }
+}
+
 int main(int argc, char * argv[])
 {
     std::cout << R"(
@@ -267,34 +285,40 @@ int main(int argc, char * argv[])
     |_____
 )";
 
-    int i = 0;
-    Round round(randWord());
     std::string letter;
+    
     while (1)
     {
-        // Display hangman and blanks
-        std::cout << frames[round.getMistakes()] << "\n";
-        std::cout << "Hint: " << round.getWord().getHint() << "\n";
-        round.printBlanks();
+        Round round(randWord());
+        while (1)
+        {
+            // Display hangman and blanks
+            std::cout << frames[round.getMistakes()] << "\n";
+            std::cout << "Hint: " << round.getWord().getHint() << "\n";
+            round.printBlanks();
 
-        // Ask for a letter
-        std::cout << "\nEnter a letter: ";
-        std::cin >> letter;
-        round.guess(letter[0]);
-        
-        // Check if the player won or lost
-        if (round.gameWon())
-        {
-            std::cout << frames[round.getMistakes()] << "\n";
-            printGameOver("Congratulations, You Win! :)", round);
-            break;
+            // Ask for a letter
+            std::cout << "\nEnter a letter: ";
+            std::cin >> letter;
+            round.guess(letter[0]);
+            
+            // Check if the player won or lost
+            if (round.gameWon())
+            {
+                std::cout << frames[round.getMistakes()] << "\n";
+                printGameOver("Congratulations, You Win! :)", round);
+                break;
+            }
+            else if (round.getMistakes() == LIVES)
+            {
+                std::cout << frames[round.getMistakes()] << "\n";
+                printGameOver("You Lost! :(", round);
+                break;
+            }
         }
-        if (round.getMistakes() == LIVES)
-        {
-            std::cout << frames[round.getMistakes()] << "\n";
-            printGameOver("You Lost! :(", round);
-            break;
-        }
+
+        // Ask player if they wish to retry
+        if (!promptRetry()) break;
     }
 
     return 0;
