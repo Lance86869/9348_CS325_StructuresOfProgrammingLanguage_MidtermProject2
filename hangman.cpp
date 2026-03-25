@@ -168,7 +168,7 @@ std::vector<Word> getWords()
 }
 
 // Get a random Word object from the list
-Word randWord(std::vector<Word> words)
+Word randWord(const std::vector<Word>& words)
 {
     // Get random index
     static std::random_device rd;
