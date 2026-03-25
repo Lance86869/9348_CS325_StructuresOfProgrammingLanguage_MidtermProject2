@@ -168,10 +168,8 @@ std::vector<Word> getWords()
 }
 
 // Get a random Word object from the list
-Word randWord()
+Word randWord(std::vector<Word> words)
 {
-    std::vector<Word> words = getWords();
-
     // Get random index
     std::random_device rd;
     std::mt19937 gen(rd()); // Mersenne Twister
@@ -236,6 +234,15 @@ bool promptRetry()
             if (letter == 'N') return false;
         }
     }
+}
+
+bool isFinished(const std::vector<Word>& finished, const Word& word)
+{
+    for (auto& w : finished)
+    {
+        if (w.getTerm() == word.getTerm()) return true;
+    }
+    return false;
 }
 
 int main(int argc, char * argv[])
@@ -313,10 +320,28 @@ int main(int argc, char * argv[])
 )";
 
     std::string letter;
-    
+    Word word;
+    std::vector<Word> words;
+    std::vector<Word> finished;
+
+    words = getWords();
     while (1)
-    {
-        Round round(randWord());
+    {    
+        // If all words are done, empty the list of finished words
+        if (words.size() == finished.size())
+        {
+            finished.clear();
+        }
+
+        // Prevent repetition of finished words
+        do 
+        {
+            word = randWord(words);
+        } 
+        while (isFinished(finished, word));
+        finished.push_back(word);
+
+        Round round(word);
         while (1)
         {
             // Display hangman and blanks
