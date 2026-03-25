@@ -1,3 +1,6 @@
 noteg;first computer algorithm;Note G is the name of an algorithm found in Lovelace's notes on the Analytical Engine. It is generally considered to be the first example of a computer algorithm.
 debugging;locating and fixing software defects;While software pioneer Admiral Grace Hopper was working on a Mark II computer at Harvard, her associates discovered a moth stuck in a relay that impeded operation and jokingly referred to it in a log book as the "First actual case of a bug being found."
 vonneumann;stored-program architecture;The world's first stored-program computer was the Electronic Discrete Variable Automatic Computer (EDVAC), the successor of ENIAC.
+analyticalengine;a loom for algebra;Lovelace once compared the Analytical Engine to the Jacquard loom, saying that it "weaves algebraic patterns, just as the Jacquard-loom weaves flowers and leaves."
+deepblue;the computer that beat Kasparov;In 1996 IBM’s chess computer, Deep Blue, beat the world champion, Gary Kasparov. This victory marked an important step in the development of machine intelligence.
+hungarian;identifier notation invented by Charles Simonyi;The name of Hungarian notation is a reference to Simonyi's nation of origin as well as the fact that Hungarian surnames precede their given names, similar to how type names precede the identifier in this notation.
