@@ -62,7 +62,7 @@ public:
     Round(const Word& word)
     {    
         m_word = word; 
-        for (int i=0; i<word.length(); i++)
+        for (size_t i=0; i<word.length(); i++)
         {
             m_blanks.push_back('_');
         }
@@ -94,7 +94,7 @@ public:
     {
         bool guessed = false;
         letter = (char) toupper(letter);
-        for (int i=0; i<m_blanks.size(); i++)
+        for (size_t i=0; i<m_blanks.size(); i++)
         {
             char c = (char) toupper(m_word.getTerm()[i]);
             if (m_blanks[i] == '_')
