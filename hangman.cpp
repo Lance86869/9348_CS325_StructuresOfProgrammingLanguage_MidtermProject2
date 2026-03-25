@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include <regex>
+#include <cstdlib>
 
 #define FILENAME "words.csv"
 #define LIVES 6
@@ -177,8 +178,30 @@ int isLetter(const std::string& input)
     return std::regex_match(input, r);
 }
 
-void printGameOver(const std::string& message, const Round& round)
+void clearScreen()
 {
+    #ifdef _WIN32 // Windows
+        std::system("cls");
+    #else // Linux
+        std::system("clear");
+    #endif
+}
+
+void printTitle()
+{
+    std::cout << R"(
+    ▗▖ ▗▖ ▗▄▖ ▗▖  ▗▖ ▗▄▄▖▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖
+    ▐▌ ▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▛▚▞▜▌▐▌ ▐▌▐▛▚▖▐▌
+    ▐▛▀▜▌▐▛▀▜▌▐▌ ▝▜▌▐▌▝▜▌▐▌  ▐▌▐▛▀▜▌▐▌ ▝▜▌
+    ▐▌ ▐▌▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌
+)" << "\n\n";
+}
+
+void printGameOver(const std::string& frame, const std::string& message, const Round& round)
+{
+    clearScreen();
+    printTitle();
+    std::cout << frame << "\n";
     round.printBlanks();
     std::cout << "\n" << message << "\n";
     std::cout << "The word was \"" << round.getWord().getTerm() << "\"\n\n";
@@ -206,13 +229,6 @@ bool promptRetry()
 
 int main(int argc, char * argv[])
 {
-    std::cout << R"(
-    ▗▖ ▗▖ ▗▄▖ ▗▖  ▗▖ ▗▄▄▖▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖
-    ▐▌ ▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▛▚▞▜▌▐▌ ▐▌▐▛▚▖▐▌
-    ▐▛▀▜▌▐▛▀▜▌▐▌ ▝▜▌▐▌▝▜▌▐▌  ▐▌▐▛▀▜▌▐▌ ▝▜▌
-    ▐▌ ▐▌▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▐▌ ▐▌▐▌  ▐▌
-)" << "\n\n";
-
     std::string frames[LIVES+1];
     frames[0] = R"(
      ____
@@ -293,6 +309,8 @@ int main(int argc, char * argv[])
         while (1)
         {
             // Display hangman and blanks
+            clearScreen();
+            printTitle();
             std::cout << frames[round.getMistakes()] << "\n";
             std::cout << "Hint: " << round.getWord().getHint() << "\n";
             round.printBlanks();
@@ -305,14 +323,13 @@ int main(int argc, char * argv[])
             // Check if the player won or lost
             if (round.gameWon())
             {
-                std::cout << frames[round.getMistakes()] << "\n";
-                printGameOver("Congratulations, You Win! :)", round);
+    
+                printGameOver(frames[round.getMistakes()], "Congratulations, You Win! :)", round);
                 break;
             }
             else if (round.getMistakes() == LIVES)
             {
-                std::cout << frames[round.getMistakes()] << "\n";
-                printGameOver("You Lost! :(", round);
+                printGameOver(frames[round.getMistakes()], "You Lost! :(", round);
                 break;
             }
         }
