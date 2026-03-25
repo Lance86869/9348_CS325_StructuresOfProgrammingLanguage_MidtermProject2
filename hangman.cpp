@@ -171,8 +171,8 @@ std::vector<Word> getWords()
 Word randWord(std::vector<Word> words)
 {
     // Get random index
-    std::random_device rd;
-    std::mt19937 gen(rd()); // Mersenne Twister
+    static std::random_device rd;
+    static std::mt19937 gen(rd()); // Mersenne Twister
     std::uniform_int_distribution<> dis(0, words.size() - 1);
     int rand_index = dis(gen);
 
@@ -355,9 +355,17 @@ int main(int argc, char * argv[])
             round.printBlanks();
 
             // Ask for a letter
-            std::cout << "\n" << INDENT << "Enter a letter: ";
-            std::cin >> letter;
-            round.guess(letter[0]);
+            while (1)
+            {
+                std::cout << "\n" << INDENT << "Enter a letter: ";
+                std::cin >> letter;
+
+                if (isLetter(letter))
+                {
+                    round.guess(letter[0]);
+                    break;
+                }
+            }
             
             // Check if the player won or lost
             if (round.gameWon())
