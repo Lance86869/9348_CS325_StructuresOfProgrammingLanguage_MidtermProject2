@@ -11,6 +11,7 @@
 
 class Word
 {
+    // Private member variables
     std::string m_term = "";
     std::string m_hint = "";
     std::string m_desc = "";
@@ -77,6 +78,7 @@ public:
         return m_mistakes;
     }
 
+    // Show which letters have been guessed correctly
     void printBlanks() const
     {
         std::cout << INDENT;
@@ -87,6 +89,7 @@ public:
         std::cout << "\n";
     }
 
+    // Attempt a guess then update state
     bool guess(char letter)
     {
         bool guessed = false;
@@ -107,6 +110,7 @@ public:
         return guessed;
     }
 
+    // If all letters have been uncovered, the game is won
     bool gameWon() const
     {
         for (auto& c : m_blanks)
@@ -139,12 +143,14 @@ std::vector<std::string> split(const std::string& str, char del)
     return strings;
 }
 
+// Extract Word object from a line in the CSV
 Word getWord(const std::string& line)
 {
     std::vector<std::string> strings = split(line, ';');
     return Word(strings[0], strings[1], strings[2]);
 }
 
+// Get a list of Word objects from the CSV
 std::vector<Word> getWords()
 {
     std::ifstream File(FILENAME);
@@ -161,6 +167,7 @@ std::vector<Word> getWords()
     return words;
 }
 
+// Get a random Word object from the list
 Word randWord()
 {
     std::vector<Word> words = getWords();
@@ -174,6 +181,7 @@ Word randWord()
     return words[rand_index];
 }
 
+// Check if the input is a valid letter
 int isLetter(const std::string& input)
 {
     std::regex r("[a-zA-Z]");
@@ -199,6 +207,7 @@ void printTitle()
 )" << "\n\n";
 }
 
+// Print the game over screen
 void printGameOver(const std::string& frame, const std::string& message, const Round& round)
 {
     clearScreen();
